@@ -1,9 +1,23 @@
 name: Deploy to Firebase Hosting on Merge to Develop
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - develop
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'tests/**'
+      - 'vitest.config.ts'
+      - 'test-setup.ts'
+      - '.husky/**'
+      - '.lintstagedrc.json'
+      - '.prettierrc'
+      - '.prettierignore'
+      - 'commitlint.config.mjs'
+      - 'LICENSE'
+      - '.gitignore'
 
 permissions:
   contents: read
