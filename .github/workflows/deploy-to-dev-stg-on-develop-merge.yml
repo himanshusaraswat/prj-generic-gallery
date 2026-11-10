@@ -5,19 +5,16 @@ on:
   push:
     branches:
       - develop
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
-      - 'tests/**'
-      - 'vitest.config.ts'
-      - 'test-setup.ts'
-      - '.husky/**'
-      - '.lintstagedrc.json'
-      - '.prettierrc'
-      - '.prettierignore'
-      - 'commitlint.config.mjs'
-      - 'LICENSE'
-      - '.gitignore'
+    paths:
+      - 'src/**'
+      - 'scripts/**'
+      - 'angular.json'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.json'
+      - 'tsconfig.app.json'
+      - 'firebase.json'
+      - '.firebaserc'
 
 permissions:
   contents: read
