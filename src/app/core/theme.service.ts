@@ -20,6 +20,7 @@ export class ThemeService {
   }
 
   setTheme(category: GalleryCategory) {
-    this.imagesService.setCategory(category);
+    // Theme switching is purely visual styling; avoid triggering background network queries
+    this.imagesService.setCategory(category, false);
   }
 }

@@ -58,7 +58,7 @@ export class GalleryComponent implements OnInit {
   }
 
   switchCategory(category: GalleryCategory) {
-    this.imagesFromServer.setCategory(category);
+    this.imagesFromServer.setCategory(category, true);
     this.analytics.logThemeChanged(category, 'nav_pill');
   }
 

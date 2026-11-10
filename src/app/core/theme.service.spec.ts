@@ -33,9 +33,9 @@ describe('ThemeService', () => {
     expect(service.currentTheme()).toBe('marvel');
   });
 
-  it('should delegate setTheme to imagesService.setCategory', () => {
+  it('should delegate setTheme to imagesService.setCategory with fetch=false', () => {
     service.setTheme('nfl');
-    expect(mockImagesService.setCategory).toHaveBeenCalledWith('nfl');
+    expect(mockImagesService.setCategory).toHaveBeenCalledWith('nfl', false);
     expect(service.currentTheme()).toBe('nfl');
   });
 });

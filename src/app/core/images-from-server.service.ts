@@ -61,14 +61,18 @@ export class ImagesFromServerService {
 
   /**
    * Switch collection category (Marvel Heroes <-> NFL Players)
+   * @param category Target collection category
+   * @param fetch Whether to immediately trigger an HTTP fetch (defaults to true for gallery view)
    */
-  setCategory(category: GalleryCategory) {
+  setCategory(category: GalleryCategory, fetch: boolean = true) {
     if (this.selectedCategory() === category) return;
     this.selectedCategory.set(category);
     this.searchQuery.set('');
     this.resetPlayground(ACTION.init, this.mode());
     this.resetGalleryState();
-    this.getImages();
+    if (fetch) {
+      this.getImages();
+    }
   }
 
   setParams(action: string, mode: Modes | string) {

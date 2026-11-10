@@ -65,6 +65,20 @@ describe('ImagesFromServerService (Zoneless Signals & Circuit Breaker)', () => {
     expect(service.imagesSignal()).toEqual(INIT_GALLERY_STATE);
   });
 
+  it('should switch category without triggering HTTP fetch when fetch=false', () => {
+    mockHttpClient.get.mockClear();
+    service.setCategory('nfl', false);
+    expect(service.selectedCategorySignal()).toBe('nfl');
+    expect(mockHttpClient.get).not.toHaveBeenCalled();
+  });
+
+  it('should switch category and trigger HTTP fetch when fetch=true', () => {
+    mockHttpClient.get.mockReturnValue(of(INIT_GALLERY_STATE));
+    service.setCategory('nfl', true);
+    expect(service.selectedCategorySignal()).toBe('nfl');
+    expect(mockHttpClient.get).toHaveBeenCalled();
+  });
+
   it('should trip circuit breaker to OPEN when HTTP requests fail', () => {
     vi.useFakeTimers();
     mockHttpClient.get.mockReturnValue(throwError(() => new Error('Connection refused')));
