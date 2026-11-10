@@ -19,6 +19,7 @@
     "format:fix": "prettier --write 'src/**/*.{ts,html,scss,json}'",
     "deploy": "ng build --configuration production && firebase deploy -P default",
     "hosting-emulator": "firebase use --project gallery && firebase emulators:start --only hosting",
+    "check:drift": "node ../infra-cloud-orchestrator/scripts/check-doc-drift.mjs",
     "prepare": "husky"
   },
   "private": true,
