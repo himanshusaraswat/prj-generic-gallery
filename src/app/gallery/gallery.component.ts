@@ -73,15 +73,17 @@ export class GalleryComponent implements OnInit {
   }
 
   setAppMode(play: boolean) {
-    this.loaderService.setLoaderTo(true);
     this.MODE = play ? APP_MODES.play : APP_MODES.gallery;
     this.imagesFromServer.setGameIsInPlay(play);
     this.imagesFromServer.resetGalleryState();
     this.imagesFromServer.resetPlayground(ACTION.init, this.MODE);
-    this.imagesFromServer.getImages();
 
     if (play) {
       this.analytics.logTriviaStarted(this.selectedCategory());
+      // GameModeComponent mounts and dispatches its own challenge fetch in ngOnInit
+    } else {
+      this.loaderService.setLoaderTo(true);
+      this.imagesFromServer.getImages();
     }
   }
 

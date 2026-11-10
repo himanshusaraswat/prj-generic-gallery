@@ -94,7 +94,7 @@
       </div>
     }
 
-    @if (loading()) {
+    @if (loading() && MODE === 'GALLERY') {
       <div class="my-3 d-flex justify-content-center">
         <app-loader />
       </div>

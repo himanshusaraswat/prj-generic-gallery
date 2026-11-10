@@ -31,28 +31,29 @@ export const appConfig: ApplicationConfig = {
     ...(environment.production && environment.analytics?.enabled
       ? [provideAnalytics(() => getAnalytics()), ScreenTrackingService, UserTrackingService]
       : []),
-    provideAppCheck(() => {
-      if (environment.production && environment.appCheck?.enabled) {
-        return initializeAppCheck(undefined, {
-          provider: new ReCaptchaEnterpriseProvider(environment.appCheck.recaptchaSiteKey),
-          isTokenAutoRefreshEnabled: environment.appCheck.isTokenAutoRefreshEnabled
-        });
-      } else {
-        (
-          self as unknown as { FIREBASE_APPCHECK_DEBUG_TOKEN: boolean }
-        ).FIREBASE_APPCHECK_DEBUG_TOKEN = true;
-        return initializeAppCheck(undefined, {
-          provider: new CustomProvider({
-            getToken: () =>
-              Promise.resolve({
-                token: 'dev-debug-token',
-                expireTimeMillis: Date.now() + 3600000
-              })
-          }),
-          isTokenAutoRefreshEnabled: false
-        });
-      }
-    }),
+    ...(environment.appCheck?.enabled
+      ? [
+          provideAppCheck(() => {
+            if (environment.production) {
+              return initializeAppCheck(undefined, {
+                provider: new ReCaptchaEnterpriseProvider(environment.appCheck.recaptchaSiteKey),
+                isTokenAutoRefreshEnabled: environment.appCheck.isTokenAutoRefreshEnabled
+              });
+            } else {
+              return initializeAppCheck(undefined, {
+                provider: new CustomProvider({
+                  getToken: () =>
+                    Promise.resolve({
+                      token: 'dev-debug-token',
+                      expireTimeMillis: Date.now() + 3600000
+                    })
+                }),
+                isTokenAutoRefreshEnabled: false
+              });
+            }
+          })
+        ]
+      : []),
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } }
   ]
 };
