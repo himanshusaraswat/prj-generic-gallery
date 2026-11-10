@@ -8,6 +8,11 @@ import { AnalyticsService } from '../core/services/analytics.service';
 import { of } from 'rxjs';
 import { signal } from '@angular/core';
 
+// Mock canvas-confetti to prevent JSDOM unhandled timer exceptions on headless CI
+vi.mock('canvas-confetti', () => ({
+  default: vi.fn()
+}));
+
 describe('GameModeComponent (Encapsulated Challenge & Lifecycle)', () => {
   let mockImagesFromServer: any;
   let mockLoaderService: any;
