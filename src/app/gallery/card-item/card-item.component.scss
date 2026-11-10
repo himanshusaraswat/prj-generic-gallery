@@ -1,0 +1,60 @@
+.mat-card-container {
+  max-width: 300px;
+  width: 300px;
+  color: black;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #ffffff;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px var(--theme-primary-glow, rgba(0, 0, 0, 0.25)) !important;
+  }
+}
+
+.card-title-text {
+  font-size: 1.1rem;
+  font-weight: 700;
+  max-width: 210px;
+}
+
+.mat-card-header-image {
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  height: 50px !important;
+  width: 44px !important;
+  border-radius: 0% !important;
+
+  &.marvel-avatar,
+  &:not(.nfl-avatar) {
+    background-image: url('../../../assets/marvel_m.svg') !important;
+  }
+
+  &.nfl-avatar {
+    background-image: url('../../../assets/nfl-logo-sm.png') !important;
+  }
+}
+
+.image-wrapper {
+  position: relative;
+  width: 300px;
+  height: 420px;
+  aspect-ratio: 300 / 420;
+  background-color: #1a1a2e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  .card-img-modern {
+    width: 300px;
+    height: 420px;
+    aspect-ratio: 300 / 420;
+    object-fit: cover;
+    display: block;
+  }
+}

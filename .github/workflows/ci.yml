@@ -1,0 +1,100 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+  push:
+    branches:
+      - main
+      - develop
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  commitlint:
+    name: 'Lint Commit Messages (Conventional Commits)'
+    runs-on: ubuntu-latest
+    steps:
+      - id: checkout
+        name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - id: setupNode
+        name: Setup Node 26
+        uses: actions/setup-node@v4
+        with:
+          node-version: 26
+
+      - id: commitlint
+        name: Validate PR / Push Commits
+        uses: wagoid/commitlint-github-action@v6
+        with:
+          configFile: 'commitlint.config.mjs'
+
+  ci:
+    name: 'CI Quality Gates (Lint, Typecheck, Test, Build)'
+    runs-on: ubuntu-latest
+    needs: [commitlint]
+    steps:
+      - id: checkout
+        name: Checkout Code
+        uses: actions/checkout@v4
+
+      - id: setupNode
+        name: Setup Node 26
+        uses: actions/setup-node@v4
+        with:
+          node-version: 26
+          cache: 'npm'
+
+      - id: install
+        name: Install Dependencies
+        run: npm ci
+
+      - id: lint
+        name: Run ESLint
+        run: npm run lint
+
+      - id: format
+        name: Check Code Formatting (Prettier)
+        run: npm run format:check
+
+      - id: typecheck
+        name: Run TypeScript Compilation Check
+        run: npm run typecheck
+
+      - id: unitTests
+        name: Run Zoneless Unit Tests (Vitest)
+        run: npm run test:unit
+
+      - id: build
+        name: Build Production Bundle
+        env:
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+          FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
+          RECAPTCHA_SITE_KEY: ${{ secrets.RECAPTCHA_SITE_KEY }}
+        run: npm run build-prod
+
+      - id: installPlaywright
+        name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - id: visualTests
+        name: Run Visual Regression Suite (Playwright)
+        run: npm run test:visual
+
+      - id: uploadPlaywrightReport
+        name: Upload Visual Diff Report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-visual-report
+          path: playwright-report/
+          retention-days: 14

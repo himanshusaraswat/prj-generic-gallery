@@ -1,0 +1,188 @@
+@if (images()) {
+  <!-- Branded Application Header with Dynamic Category Logo -->
+  <header class="app-header d-flex justify-content-between align-items-center px-3 py-2">
+    <div class="brand-title d-flex align-items-center">
+      <div
+        class="brand-header-logo me-2"
+        [class.nfl-logo]="selectedCategory() === 'nfl'"
+        [class.marvel-logo]="selectedCategory() !== 'nfl'"
+        role="img"
+        [attr.aria-label]="selectedCategory() === 'nfl' ? 'NFL Fan Club' : 'Marvel Fan Club'"
+      ></div>
+      <span class="fs-4 fw-bold text-white tracking-wide">Fan Club</span>
+    </div>
+    <app-user-menu />
+  </header>
+
+  <!-- Category Selector & Mode Controls -->
+  <div class="container d-flex flex-column align-items-center my-3">
+    <!-- Spaced Category Pills (No cramped btn-group, no numbers) -->
+    <div
+      class="category-pills-wrapper d-flex gap-3 justify-content-center mb-3"
+      role="group"
+      aria-label="Select collection category"
+    >
+      <button
+        type="button"
+        class="btn category-pill-btn shadow-sm"
+        [class.active-marvel]="selectedCategory() === 'marvel'"
+        [class.inactive-pill]="selectedCategory() !== 'marvel'"
+        [attr.aria-pressed]="selectedCategory() === 'marvel'"
+        (click)="switchCategory('marvel')"
+      >
+        🦸 Marvel Heroes
+      </button>
+      <button
+        type="button"
+        class="btn category-pill-btn shadow-sm"
+        [class.active-nfl]="selectedCategory() === 'nfl'"
+        [class.inactive-pill]="selectedCategory() !== 'nfl'"
+        [attr.aria-pressed]="selectedCategory() === 'nfl'"
+        (click)="switchCategory('nfl')"
+      >
+        🏈 NFL Players
+      </button>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <mat-slide-toggle
+          class="play-btn-txt"
+          [(ngModel)]="enterPlayMode"
+          (ngModelChange)="setAppMode($event)"
+          aria-label="Toggle trivia game mode"
+        >
+          <span class="text-white fw-bold">Enter Play Mode</span>
+        </mat-slide-toggle>
+      </div>
+    </div>
+
+    <!-- Live Search Bar (Google Modern Web Guidance Form Ergonomics) -->
+    @if (MODE === 'GALLERY') {
+      <div class="search-bar-container my-3 w-100 d-flex justify-content-center" role="search">
+        <div class="input-group search-input-group shadow-sm">
+          <span class="input-group-text bg-dark text-secondary border-secondary">
+            <span class="material-icons">search</span>
+          </span>
+          <input
+            type="search"
+            class="form-control bg-dark text-white border-secondary search-input"
+            [placeholder]="
+              selectedCategory() === 'nfl'
+                ? 'Search NFL player by name'
+                : 'Search Marvel hero by name'
+            "
+            [value]="searchQuery()"
+            (input)="onSearchInput($event)"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
+            enterkeyhint="search"
+            aria-label="Search character or player"
+          />
+          @if (searchQuery()) {
+            <button
+              type="button"
+              class="btn btn-outline-secondary text-white clear-search-btn"
+              (click)="clearSearch()"
+              aria-label="Clear search input"
+            >
+              ✕
+            </button>
+          }
+        </div>
+      </div>
+    }
+
+    @if (loading()) {
+      <div class="my-3 d-flex justify-content-center">
+        <app-loader />
+      </div>
+    }
+  </div>
+
+  <!-- Gallery Cards View with Decomposed Presentational CardItemComponent -->
+  @if (images().data.results.length > 0 && MODE === 'GALLERY') {
+    <div
+      class="container gallery"
+      infiniteScroll
+      [infiniteScrollDistance]="2"
+      [infiniteScrollThrottle]="300"
+      (scrolled)="doPagination()"
+    >
+      <div class="row">
+        @for (item of images().data.results; track item.id; let i = $index) {
+          <div class="col-lg-4 col-sm-6 col-md-6 d-flex justify-content-center mb-4 gx-5">
+            <app-card-item [item]="item" [category]="selectedCategory()" [priority]="i < 2" />
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Offline Service Status Card (Circuit Breaker Tripped) -->
+  @if (isOffline() && !loading() && MODE === 'GALLERY') {
+    <div class="container text-center text-white my-5">
+      <div class="offline-state-card p-4 p-md-5 mx-auto shadow-lg rounded-4">
+        <div class="offline-icon-wrapper mb-3">
+          <mat-icon class="offline-icon">cloud_off</mat-icon>
+        </div>
+        <h2 class="offline-state-title fw-bold mb-2">Gallery Service Connecting</h2>
+        <p class="offline-state-desc text-white-50 mb-4 mx-auto" style="max-width: 480px">
+          The gallery microservice is currently warming up or temporarily unreachable. Please wait a
+          moment and try reconnecting.
+        </p>
+        <button
+          mat-raised-button
+          color="primary"
+          type="button"
+          class="reconnect-action-btn px-4 py-2 fw-bold"
+          (click)="retryConnection()"
+          [disabled]="isReconnecting()"
+        >
+          @if (isReconnecting()) {
+            <span
+              class="spinner-border spinner-border-sm me-2"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            <span>Connecting...</span>
+          } @else {
+            <span class="d-inline-flex align-items-center">
+              <mat-icon class="me-1">sync</mat-icon>
+              <span>Try Reconnecting</span>
+            </span>
+          }
+        </button>
+      </div>
+    </div>
+  }
+
+  <!-- Empty State Feedback when Search yields 0 items (Adhering to MWG & Angular Material) -->
+  @if (!isOffline() && images().data.results.length === 0 && MODE === 'GALLERY' && !loading()) {
+    <div class="container text-center text-white my-5">
+      <div class="empty-state-card p-4 mx-auto shadow-lg">
+        <mat-icon class="empty-state-icon mb-2">search_off</mat-icon>
+        <h3 class="empty-state-title mb-2">No Results Found For "{{ searchQuery() }}"</h3>
+        <p class="empty-state-desc mb-4">
+          Try searching with a different character or player name.
+        </p>
+        <div>
+          <button
+            mat-stroked-button
+            color="primary"
+            type="button"
+            class="clear-search-action-btn"
+            (click)="clearSearch()"
+          >
+            Clear Search
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (MODE === 'PLAY') {
+    <app-game-mode />
+  }
+}

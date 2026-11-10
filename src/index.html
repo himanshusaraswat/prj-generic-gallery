@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Welcome To The Fan Club</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="preconnect" href="https://identitytoolkit.googleapis.com" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link rel="preconnect" href="https://a.espncdn.com" />
+    <link rel="preload" as="image" href="./assets/landing-page/banner/marvel-background-web.webp" />
+    <link rel="preload" as="image" href="./assets/landing-page/banner/nfl-background.jpg" />
+    <!-- <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet"> -->
+  </head>
+  <body class="mat-typography" data-theme="marvel">
+    <div id="background-container" aria-hidden="true">
+      <div class="bg-layer bg-marvel"></div>
+      <div class="bg-layer bg-nfl"></div>
+      <div class="bg-overlay"></div>
+    </div>
+    <app-root></app-root>
+  </body>
+</html>

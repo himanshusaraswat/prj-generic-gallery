@@ -1,0 +1,16 @@
+.user-menu-wrapper {
+  white-space: nowrap;
+}
+
+.welcome-txt {
+  font-family: 'All-Pro-Regular', 'Helvetica Neue', sans-serif;
+  font-size: 1.15rem;
+  letter-spacing: 0.3px;
+  color: #ffffff;
+}
+
+@media screen and (max-width: 576px) {
+  .welcome-txt {
+    font-size: 0.95rem;
+  }
+}

@@ -1,0 +1,261 @@
+/* You can add global styles to this file, and also import other style files */
+// @import url(https://fonts.googleapis.com/css?family=Roboto:500);
+@use '@angular/material' as mat;
+// @import url("https://fonts.googleapis.com/css2?family=Ephesis&display=swap");
+@font-face {
+  font-family: 'All-Pro-Heavy-Black';
+  src: url('../src/assets/all-pro-sans-black.otf');
+  font-weight: 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'All-Pro-Heavy';
+  src: url('../src/assets/all-pro-sans-heavy.otf');
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'All-Pro-Medium';
+  src: url('../src/assets/all-pro-sans-medium.otf');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'All-Pro-Regular';
+  src: url('../src/assets/all-pro-sans-regular.otf');
+  font-weight: 400;
+  font-display: swap;
+}
+
+// Angular Material Typography Configuration adhering to M3/MWG standards
+$custom-typography: mat.m2-define-typography-config(
+  $font-family:
+    '"All-Pro-Regular", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif'
+);
+@include mat.typography-hierarchy($custom-typography);
+
+/* ==========================================================================
+   DYNAMIC THEME DESIGN TOKENS (Marvel vs. NFL)
+   ========================================================================== */
+:root,
+[data-theme='marvel'] {
+  --theme-primary: #e23636;
+  --theme-primary-hover: #ff4d4d;
+  --theme-primary-glow: rgba(226, 54, 54, 0.45);
+  --theme-accent: #ffcc00;
+  --theme-accent-glow: rgba(255, 204, 0, 0.35);
+  --theme-surface-card: rgba(15, 23, 42, 0.82);
+  --theme-surface-header: rgba(10, 15, 30, 0.55);
+  --theme-border: rgba(255, 82, 82, 0.25);
+  --theme-search-focus-border: #ffcc00;
+  --theme-search-focus-glow: rgba(255, 204, 0, 0.4);
+  --theme-focus-ring: #ffcc00;
+  --theme-pill-active: #e23636;
+  --theme-pill-border: #ff5252;
+  --theme-bg-gradient: radial-gradient(
+    circle at 50% 30%,
+    rgba(10, 15, 30, 0.3) 0%,
+    rgba(5, 8, 18, 0.88) 100%
+  );
+}
+
+[data-theme='nfl'] {
+  --theme-primary: #013369;
+  --theme-primary-hover: #024b99;
+  --theme-primary-glow: rgba(1, 51, 105, 0.55);
+  --theme-accent: #4fa3e3;
+  --theme-accent-glow: rgba(79, 163, 227, 0.35);
+  --theme-surface-card: rgba(10, 18, 30, 0.85);
+  --theme-surface-header: rgba(8, 14, 26, 0.6);
+  --theme-border: rgba(79, 163, 227, 0.25);
+  --theme-search-focus-border: #4fa3e3;
+  --theme-search-focus-glow: rgba(79, 163, 227, 0.45);
+  --theme-focus-ring: #4fa3e3;
+  --theme-pill-active: #013369;
+  --theme-pill-border: #1a5cb8;
+  --theme-bg-gradient: radial-gradient(
+    circle at 50% 30%,
+    rgba(10, 20, 35, 0.35) 0%,
+    rgba(4, 9, 18, 0.92) 100%
+  );
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  color: white;
+}
+
+/* Hardware-Accelerated Dual Layer Background Cross-Fade */
+#background-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+
+  .bg-layer {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    will-change: opacity;
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &.bg-marvel {
+      background-image: url('./assets/landing-page/banner/marvel-background-web.webp');
+      opacity: 1;
+      z-index: 1;
+    }
+
+    &.bg-nfl {
+      background-image: url('./assets/landing-page/banner/nfl-background.jpg');
+      opacity: 0;
+      z-index: 0;
+    }
+  }
+
+  .bg-overlay {
+    position: absolute;
+    inset: 0;
+    background: var(--theme-bg-gradient);
+    transition: background 0.6s ease;
+    z-index: 2;
+  }
+}
+
+[data-theme='nfl'] #background-container {
+  .bg-marvel {
+    opacity: 0;
+    z-index: 0;
+  }
+  .bg-nfl {
+    opacity: 1;
+    z-index: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #background-container .bg-layer,
+  #background-container .bg-overlay {
+    transition: none !important;
+  }
+}
+
+body {
+  font-family:
+    'All-Pro-Regular',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue',
+    sans-serif;
+  font-weight: 400;
+  overflow-y: scroll;
+}
+
+// Google Modern Web Guidance / WCAG 2.4.7 Focus-Visible
+:focus-visible {
+  outline: 2px solid var(--theme-focus-ring, #ffcc00);
+  outline-offset: 3px;
+}
+a:hover {
+  text-decoration: none;
+}
+
+/* Material Design 3 Typography Hierarchy */
+.mat-h1,
+.mat-headline-4,
+.mat-typography h1 {
+  font-family:
+    'All-Pro-Heavy-Black',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  font-weight: 900;
+  letter-spacing: normal;
+  margin: 0 0 16px;
+  font-size: 2em;
+}
+
+.mat-h2,
+.mat-headline-5,
+.mat-typography h2 {
+  font-family:
+    'All-Pro-Heavy',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  font-weight: 700;
+  letter-spacing: normal;
+}
+
+/* Standardize Inputs and Controls to Regular Weight (MWG) */
+input,
+textarea,
+select {
+  font-family:
+    'All-Pro-Regular',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif !important;
+  font-weight: 400 !important;
+}
+
+button,
+.mat-mdc-button-base {
+  font-family:
+    'All-Pro-Medium',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+  font-weight: 500;
+}
+/* Card Avatar Styling adhering to category switching */
+.mat-card-header-image {
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  height: 52px !important;
+  width: 44px !important;
+  border-radius: 0% !important;
+  margin-bottom: 0 !important;
+
+  &.nfl-avatar {
+    background-image: url('./assets/nfl-logo-sm.png') !important;
+  }
+
+  &.marvel-avatar,
+  &:not(.nfl-avatar) {
+    background-image: url('./assets/marvel_m.svg') !important;
+  }
+}
+
+.image-wrapper {
+  width: 300px;
+  height: 420px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+  .mat-h1,
+  .mat-headline-5,
+  .mat-typography h1 {
+    font-size: 1.25em;
+    line-height: 1.35em;
+  }
+}

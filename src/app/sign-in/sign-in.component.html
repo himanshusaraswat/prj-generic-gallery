@@ -1,0 +1,262 @@
+<div
+  class="landing-page-wrapper"
+  [class.theme-marvel]="activeTab() === 'marvel' || activeTab() === 'trivia'"
+  [class.theme-nfl]="activeTab() === 'nfl'"
+>
+  <!-- Header Bar -->
+  <header class="landing-header container-fluid py-3 px-4">
+    <div class="d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-3">
+        <div
+          class="brand-avatar"
+          [class.marvel-avatar]="activeTab() !== 'nfl'"
+          [class.nfl-avatar]="activeTab() === 'nfl'"
+          role="img"
+          [attr.aria-label]="activeTab() === 'nfl' ? 'NFL Fan Club' : 'Marvel Fan Club'"
+        ></div>
+        <div>
+          <h1 class="brand-title mb-0">Fan Club</h1>
+          <small class="text-white-50">Data Provided By Marvel & ESPN • © 2026</small>
+        </div>
+      </div>
+      <div class="header-badges d-none d-md-flex align-items-center gap-2">
+        <span
+          class="badge text-white px-3 py-2 rounded-pill transition-badge"
+          [class.bg-danger]="activeTab() !== 'nfl'"
+          [class.bg-primary]="activeTab() === 'nfl'"
+        >
+          {{ activeTab() === 'nfl' ? '636+ NFL Players' : '269+ Marvel Heroes' }}
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero & Showcase Main Body -->
+  <main class="container py-4 my-auto">
+    <div class="row align-items-center g-4 g-lg-5">
+      <!-- Left Column: Interactive "What We Offer" Demo Showcase -->
+      <section class="col-12 col-lg-7" aria-label="Product Showcase and Demos">
+        <div class="showcase-container p-4 p-md-5 rounded-4">
+          <div class="showcase-badge mb-3">
+            <span class="badge-pill">✨ What We Offer</span>
+          </div>
+          <h2 class="display-6 fw-bold text-white mb-3">
+            Explore The Multiverse & Test Your Fan IQ
+          </h2>
+          <p class="lead text-white-50 mb-4">
+            Browse high-resolution character archives, explore official NFL rosters, and test your
+            knowledge in the real-time trivia game.
+          </p>
+
+          <!-- Showcase Navigation Tabs -->
+          <nav
+            class="nav nav-pills showcase-pills gap-2 mb-4"
+            role="tablist"
+            aria-label="Showcase Feature Tabs"
+          >
+            <button
+              type="button"
+              class="nav-link"
+              [class.active-marvel]="activeTab() === 'marvel'"
+              (click)="setTab('marvel')"
+              role="tab"
+              [attr.aria-selected]="activeTab() === 'marvel'"
+            >
+              🦸 Marvel Multiverse
+            </button>
+            <button
+              type="button"
+              class="nav-link"
+              [class.active-nfl]="activeTab() === 'nfl'"
+              (click)="setTab('nfl')"
+              role="tab"
+              [attr.aria-selected]="activeTab() === 'nfl'"
+            >
+              🏈 NFL Rosters
+            </button>
+            <button
+              type="button"
+              class="nav-link"
+              [class.active-trivia]="activeTab() === 'trivia'"
+              (click)="setTab('trivia')"
+              role="tab"
+              [attr.aria-selected]="activeTab() === 'trivia'"
+            >
+              🎮 Trivia Challenge
+            </button>
+          </nav>
+
+          <!-- Tab 1: Marvel Multiverse Preview -->
+          <div *ngIf="activeTab() === 'marvel'" class="demo-card-wrapper fade-in">
+            <div class="row g-3">
+              <div class="col-6">
+                <article class="demo-character-card p-3 rounded-3">
+                  <div class="d-flex align-items-center gap-2 mb-2">
+                    <span class="badge bg-danger">Avengers</span>
+                    <small class="text-white-50 ms-auto">#1</small>
+                  </div>
+                  <h4 class="h5 text-white fw-bold mb-1">Iron Man</h4>
+                  <p class="small text-white-50 mb-2">Alter Ego: Tony Stark</p>
+                  <div class="demo-tag text-warning small">⚡ Repulsor Beams • Genius IQ</div>
+                </article>
+              </div>
+              <div class="col-6">
+                <article class="demo-character-card p-3 rounded-3">
+                  <div class="d-flex align-items-center gap-2 mb-2">
+                    <span class="badge bg-danger">Avengers</span>
+                    <small class="text-white-50 ms-auto">#2</small>
+                  </div>
+                  <h4 class="h5 text-white fw-bold mb-1">Thor</h4>
+                  <p class="small text-white-50 mb-2">Alter Ego: Thor Odinson</p>
+                  <div class="demo-tag text-info small">⚡ God of Thunder • Mjolnir</div>
+                </article>
+              </div>
+            </div>
+            <div class="feature-footer-text mt-3 text-white-50 small">
+              ✦ 269+ Superheroes & Villains indexed with complete bios, affiliations, and full comic
+              artwork.
+            </div>
+          </div>
+
+          <!-- Tab 2: NFL Rosters Preview -->
+          <div *ngIf="activeTab() === 'nfl'" class="demo-card-wrapper fade-in">
+            <div class="row g-3">
+              <div class="col-6">
+                <article class="demo-character-card p-3 rounded-3">
+                  <div class="d-flex align-items-center gap-2 mb-2">
+                    <span class="badge bg-primary">QB</span>
+                    <small class="text-white-50 ms-auto">KC</small>
+                  </div>
+                  <h4 class="h5 text-white fw-bold mb-1">Patrick Mahomes</h4>
+                  <p class="small text-white-50 mb-2">Kansas City Chiefs</p>
+                  <div class="demo-tag text-success small">🏆 3x Super Bowl Champion</div>
+                </article>
+              </div>
+              <div class="col-6">
+                <article class="demo-character-card p-3 rounded-3">
+                  <div class="d-flex align-items-center gap-2 mb-2">
+                    <span class="badge bg-primary">TE</span>
+                    <small class="text-white-50 ms-auto">KC</small>
+                  </div>
+                  <h4 class="h5 text-white fw-bold mb-1">Travis Kelce</h4>
+                  <p class="small text-white-50 mb-2">Kansas City Chiefs</p>
+                  <div class="demo-tag text-success small">🏆 3x Super Bowl Champion</div>
+                </article>
+              </div>
+            </div>
+            <div class="feature-footer-text mt-3 text-white-50 small">
+              ✦ 636+ Official NFL athlete headshots, teams, and active player positions powered by
+              ESPN.
+            </div>
+          </div>
+
+          <!-- Tab 3: Interactive Trivia Game Demo -->
+          <div *ngIf="activeTab() === 'trivia'" class="demo-card-wrapper fade-in">
+            <div class="trivia-demo-box p-3 rounded-3">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="badge bg-warning text-dark fw-bold">🎮 Live Demo Round</span>
+                <span class="text-white-50 small">Score: 100 XP</span>
+              </div>
+              <p class="text-white fw-semibold mb-3">
+                Question: Can you identify the secret alter ego of <strong>Iron Man</strong>?
+              </p>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-light trivia-option-btn"
+                  [class.btn-success]="selectedTriviaAnswer() === 'tony'"
+                  [class.text-white]="selectedTriviaAnswer() === 'tony'"
+                  (click)="selectTrivia('tony')"
+                >
+                  Tony Stark
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-light trivia-option-btn"
+                  [class.btn-danger]="selectedTriviaAnswer() === 'steve'"
+                  (click)="selectTrivia('steve')"
+                >
+                  Steve Rogers
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-light trivia-option-btn"
+                  [class.btn-danger]="selectedTriviaAnswer() === 'peter'"
+                  (click)="selectTrivia('peter')"
+                >
+                  Peter Parker
+                </button>
+              </div>
+
+              <!-- Interactive Feedback Badge -->
+              <div
+                *ngIf="selectedTriviaAnswer() === 'tony'"
+                class="alert alert-success py-2 px-3 small mb-0 fade-in"
+              >
+                🎯 <strong>Spot on!</strong> Sign in with Google to play unlimited rounds with live
+                score tracking!
+              </div>
+              <div
+                *ngIf="selectedTriviaAnswer() && selectedTriviaAnswer() !== 'tony'"
+                class="alert alert-danger py-2 px-3 small mb-0 fade-in"
+              >
+                ❌ Not quite! Iron Man's real identity is Tony Stark. Sign in to test your fan
+                knowledge!
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Glassmorphic Sign-In Auth Card -->
+      <section class="col-12 col-lg-5" aria-label="Sign-In Panel">
+        <div class="auth-card p-4 p-md-5 rounded-4 shadow-lg text-center">
+          <div class="auth-header mb-4">
+            <div class="auth-icon-circle mx-auto mb-3">
+              <span class="auth-icon-emoji">⚡</span>
+            </div>
+            <h3 class="h3 fw-bold text-white mb-2">Welcome To The Fan Club</h3>
+            <p class="text-white-50 small mb-0">One-click instant access. No password required.</p>
+          </div>
+
+          <!-- Official Google Sign-In Button -->
+          <div class="d-flex flex-column align-items-center justify-content-center gap-3">
+            <button
+              type="button"
+              class="official-google-btn d-flex align-items-center justify-content-center"
+              (click)="auth.login()"
+              aria-label="Sign in with Google"
+            >
+              <div class="google-icon-box me-3">
+                <img class="google-icon-svg" src="assets/google_logo.svg" alt="Google G Logo" />
+              </div>
+              <span class="google-btn-label">Sign in with Google</span>
+            </button>
+
+            <!-- Dev/Test Guest Login Button (Strictly Hidden on Production) -->
+            <button
+              *ngIf="showGuestLogin"
+              type="button"
+              class="btn btn-outline-light guest-btn px-4 py-2 rounded-pill fw-bold"
+              (click)="auth.loginAsGuest()"
+              aria-label="Continue as Guest (Dev Mode Only)"
+            >
+              ⚡ Continue as Guest (Dev Mode)
+            </button>
+          </div>
+
+          <!-- Trust & Privacy Signals -->
+          <div class="auth-footer mt-4 pt-3 border-top border-secondary border-opacity-25">
+            <div class="d-flex justify-content-center align-items-center gap-3 text-white-50 small">
+              <span>🔒 Keyless OAuth</span>
+              <span>•</span>
+              <span>⚡ Scale-to-Zero</span>
+              <span>•</span>
+              <span>🆓 100% Free</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>

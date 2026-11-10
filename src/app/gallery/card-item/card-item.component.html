@@ -1,0 +1,37 @@
+<mat-card class="mat-card-container shadow">
+  <mat-card-header class="align-items-center">
+    <div
+      mat-card-avatar
+      class="mat-card-header-image mb-0"
+      [class.nfl-avatar]="category() === 'nfl'"
+      [class.marvel-avatar]="category() !== 'nfl'"
+    ></div>
+    <mat-card-title class="p-2 card-title-text text-truncate">
+      {{ displayName() | titlecase }}
+    </mat-card-title>
+  </mat-card-header>
+
+  <div class="image-wrapper">
+    @if (priority()) {
+      <img
+        mat-card-image
+        width="300"
+        height="420"
+        [src]="imageUrl()"
+        fetchpriority="high"
+        [alt]="displayName() || 'Portrait'"
+        class="card-img-modern mt-2"
+      />
+    } @else {
+      <img
+        mat-card-image
+        width="300"
+        height="420"
+        [src]="imageUrl()"
+        loading="lazy"
+        [alt]="displayName() || 'Portrait'"
+        class="card-img-modern mt-2"
+      />
+    }
+  </div>
+</mat-card>

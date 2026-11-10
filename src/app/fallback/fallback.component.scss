@@ -1,0 +1,11 @@
+.card-text {
+  font-family: 'All-Pro-Regular', cursive !important;
+  font-size: 2em !important;
+  line-height: 1em !important;
+}
+::ng-deep {
+  body {
+    background-image: none;
+    background-color: #fff;
+  }
+}

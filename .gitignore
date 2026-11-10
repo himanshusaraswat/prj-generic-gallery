@@ -1,0 +1,29 @@
+/.angular/cache
+# Dot files
+.DS_Store
+.env
+.idea
+.vscode/
+.cache/
+# Build files
+build/
+dist/
+out/
+bin/
+node_modules/
+
+# Logs
+**/npm-debug.log
+test_logs/
+
+# Coverage & Test Results
+.nyc_output/
+coverage/
+playwright-report/
+test-results/
+
+# Firebase
+.firebase
+*-debug.log
+.runtimeconfig.json
+
